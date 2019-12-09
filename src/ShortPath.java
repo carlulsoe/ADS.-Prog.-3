@@ -13,23 +13,23 @@ public class ShortPath {
     public int shortestPath(Edge[] edges, int nodeCount, int maxEdges, int sourceNode, int targetNode) {
         int output = Integer.MAX_VALUE;
         ISS(nodeCount, sourceNode);
+        /**
         for (int i = 0; i < maxEdges; i++) {
             for(int j = 0; j < edges.length; j++) {
                 relax(edges[j].from, edges[j].to, edges[j]);
             }
-        }
+        }*/
+        recurse(maxEdges, edges, sourceNode, 0);
 
-        List<Edge> l = null;
-        for (int j = 0; j < maxEdges; j++) {
-            l = Arrays.stream(edges).filter(edge -> edge.from == sourceNode).collect(Collectors.toList());
-            l.
-        }
+
+
 
         System.out.println(vertex);
         System.out.println(parents);
         System.out.println(sourceNode);
         System.out.println(targetNode);
         System.out.println(maxEdges);
+        /**
         int sum = 0;
         int i = sourceNode;
         int k = 0;
@@ -38,8 +38,10 @@ public class ShortPath {
             i = parents.get(i);
             k++;
         }
-        sum += vertex.get(targetNode);
-        output = Math.min(output, sum);
+         sum += ;
+         */
+
+        output = Math.min(output, vertex.get(targetNode));
         return output;
     }
 
@@ -56,6 +58,16 @@ public class ShortPath {
         if (vertex.get(v) > vertex.get(u) + w.weight) {
             vertex.put(v, vertex.get(u) + w.weight);
             parents.put(u, v);
+        }
+    }
+
+    private void recurse(int maxEdges, Edge[] edges, int sourceNode, int depth) {
+        if (depth != maxEdges) {
+            List<Edge> l = Arrays.stream(edges).filter(edge -> edge.from == sourceNode).collect(Collectors.toList());
+            for (Edge edge : l) {
+                relax(edge.from, edge.to, edge);
+                recurse(maxEdges, edges, edge.to, depth + 1);
+            }
         }
     }
 
